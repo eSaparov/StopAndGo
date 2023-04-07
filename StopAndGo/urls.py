@@ -26,6 +26,16 @@ urlpatterns = [
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', RegisterView.as_view(), name='auth_register'),
     path('api/project', ProjectAPIListView.as_view(), name='api_projects_list'),
-    path('api/project/<int:pk>', ProjectAPIDetailView.as_view(), name='api_products_detail'),
+    path('api/project/<int:pk>', ProjectAPIDetailView.as_view(), name='api_project_detail'),
+    path('api/room', RoomAPIListView.as_view(), name='api_rooms_list'),
+    path('api/room/<int:pk>', RoomAPIDetailView.as_view(), name='api_room_detail'),
+    path('api/quality_issue', Quality_issueAPIListView.as_view(), name='api_quality_issues_list'),
+    path('api/quality_issue/<int:pk>', Quality_issueAPIDetailView.as_view(), name='api_quality_issue_detail'),
+    path('api/safety_issue', Safety_issueAPIListView.as_view(), name='api_safety_issues_list'),
+    path('api/safety_issue/<int:pk>', Safety_issueAPIDetailView.as_view(), name='api_safety_issue_detail'),
+    path('api/report_safety', Report_SafetyAPIListView.as_view(), name='api_report_safetys_list'),
+    path('api/report_safety/<int:pk>', Report_SafetyAPIDetailView.as_view(), name='api_report_safety_detail'),
+    path('api/report_quality', Report_QualityAPIListView.as_view(), name='api_report_qualitys_list'),
+    path('api/report_quality/<int:pk>', Report_QualityAPIDetailView.as_view(), name='api_report_quality_detail'),
 
 ]
