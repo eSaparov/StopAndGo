@@ -25,4 +25,7 @@ urlpatterns = [
     path('login/', MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', RegisterView.as_view(), name='auth_register'),
+    path('api/project', ProjectAPIListView.as_view(), name='api_projects_list'),
+    path('api/project/<int:pk>', ProjectAPIDetailView.as_view(), name='api_products_detail'),
+
 ]

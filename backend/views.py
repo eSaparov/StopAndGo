@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
 from .serializers import MyTokenObtainPairSerializer
@@ -9,6 +8,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework import generics
 from .serializers import *
+from rest_framework.authentication import TokenAuthentication
 
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
@@ -20,7 +20,7 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
 class ProjectAPIListView(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     model = Project
     serializer_class = ProjectSerializer
     
@@ -32,7 +32,7 @@ class ProjectAPIListView(generics.ListAPIView):
         return self.list(request, *args, **kwargs)
 
 class RoomAPIListView(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     model = Room
     serializer_class = RoomSerializer
     
@@ -44,7 +44,7 @@ class RoomAPIListView(generics.ListAPIView):
         return self.list(request, *args, **kwargs)
 
 class Quality_issueAPIListView(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     model = Quality_issue
     serializer_class = Quality_issueSerializer
     
@@ -56,7 +56,7 @@ class Quality_issueAPIListView(generics.ListAPIView):
         return self.list(request, *args, **kwargs)
 
 class Safety_issueAPIListView(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     model = Safety_issue
     serializer_class = Safety_issueSerializer
     
@@ -68,7 +68,7 @@ class Safety_issueAPIListView(generics.ListAPIView):
         return self.list(request, *args, **kwargs)
 
 class Report_SafetyAPIListView(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     model = Report_Safety
     serializer_class = Report_SafetySerializer
     
@@ -80,7 +80,7 @@ class Report_SafetyAPIListView(generics.ListAPIView):
         return self.list(request, *args, **kwargs)
 
 class Report_QualityAPIListView(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     model = Report_Quality
     serializer_class = Report_QualitySerializer
     
@@ -92,30 +92,27 @@ class Report_QualityAPIListView(generics.ListAPIView):
         return self.list(request, *args, **kwargs)
 
 class ProjectAPIDetailView(APIView):
+    authentication_classes = [TokenAuthentication]
     def get_object(self, pk):
-        try:
-            project_list = Project.objects.get(id=pk)
-            return project_list
-        except project_list == "":
+        
+        project_list = Project.objects.get(id=pk)
+        print(project_list)
+        if project_list == "":
             sending = {
                     'error': 'Project does not found',
                     'error_code': 404,
                 }
             return Response(sending ,status.HTTP_404_NOT_FOUND)
+        else: return project_list
     
-    def post(self, request, pk, format=None):
+    def get(self, pk):
         if self.request.body == b'':
             project = self.get_object(pk)
             serializer = ProjectSerializer(project)
+            print(project.name)
+            print(serializer.data)
             responsing = {
                 'name':serializer.data['name'],
-                'description':serializer.data['description'],
-                'category':serializer.data['category'],
-                'quantity':serializer.data['quantity'],
-                'unit':serializer.data['unit'],
-                'price':serializer.data['price'],
-                'image':serializer.data['image'],
-                'owner':serializer.data['owner'],
-                'is_available':serializer.data['is_available'],
+                'fullname':serializer.data['fullname'],
              }
             return Response(responsing)
