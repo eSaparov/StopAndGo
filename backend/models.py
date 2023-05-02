@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
-from django.db.models.fields import FloatField
-
 
 class UserManager(BaseUserManager):
 
@@ -141,5 +139,3 @@ class Report_Quality(models.Model):
     class Meta:
         verbose_name = "Quality report"
         verbose_name_plural = "Quality reports"
-    
-
