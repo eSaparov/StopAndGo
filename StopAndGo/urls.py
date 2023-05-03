@@ -15,10 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from rest_framework_simplejwt.views import TokenRefreshView
 from backend.views import *
-
+from django.views.generic import TemplateView
+from rest_framework.schemas import get_schema_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,5 +38,10 @@ urlpatterns = [
     path('api/report_safety/<int:pk>', Report_SafetyAPIDetailView.as_view(), name='api_report_safety_detail'),
     path('api/report_quality', Report_QualityAPIListView.as_view(), name='api_report_qualitys_list'),
     path('api/report_quality/<int:pk>', Report_QualityAPIDetailView.as_view(), name='api_report_quality_detail'),
+    path('openapi', get_schema_view(
+            title="StopAndGo",
+            description="API for all things …",
+            version="1.0.0"
+        ), name='openapi-schema'),
 
 ]
